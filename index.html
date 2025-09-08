@@ -156,7 +156,7 @@
 
         /* POPUP */
         #popup-overlay {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -165,7 +165,7 @@
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 100;
+            z-index: 1000;
         }
 
         #popup {
@@ -173,13 +173,17 @@
             padding: 20px;
             border-radius: 10px;
             text-align: center;
-            max-width: 80%;
+            max-width: 350px;
+            max-height: 550px;
+            width: 90vw;
+            height: 90vh;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
             animation: fadeIn 0.5s ease-in-out;
             background-image: url('assets/popup-bg.png');
-            background-size: cover;
+            background-size: contain;
             background-position: center;
-            color: black;
+            background-repeat: no-repeat;
+            color: transparent;
             position: relative;
         }
 
@@ -962,7 +966,8 @@
         // --- CONFIGURATION ---
         const config = {
             ctaLink: 'https://example.com/register',
-            wheelSegments: 8,
+            wheelSegments: 6,
+            winningSegments: [0, 2, 4],
             assets: {
                 background: 'assets/bg.png',
                 wheel: 'assets/wheel.png',
@@ -1001,14 +1006,14 @@
                 }
             },
             prizes: [
-                { name: '100% Bonus', text: '100% Bonus!', message: 'Tebrikler! 100% bonus kazandınız!', ctaText: 'Bonusu Al' },
-                { name: '50 FS', text: '50 Free Spin', message: 'Tebrikler! 50 Free Spin kazandınız!', ctaText: 'Free Spinleri Al' },
-                { name: '10 FS', text: '10 Free Spin', message: 'Tebrikler! 10 Free Spin kazandınız!', ctaText: 'Free Spinleri Al' },
-                { name: '200% Bonus', text: '200% Bonus!', message: 'Tebrikler! 200% bonus kazandınız!', ctaText: 'Bonusu Al' },
-                { name: 'Boş', text: 'Boş Çeviri', message: 'Üzgünüz, bir dahaki sefere daha çok şans dileriz.', ctaText: 'Tekrar Dene' },
-                { name: '100 TL', text: '100 TL', message: 'Tebrikler! 100 TL kazandınız!', ctaText: 'Ödülü Al' },
-                { name: 'Boş', text: 'Boş Çeviri', message: 'Üzgünüz, bir dahaki sefere daha çok şans dileriz.', ctaText: 'Tekrar Dene' },
-                { name: '50 TL', text: '50 TL', message: 'Tebrikler! 50 TL kazandınız!', ctaText: 'Ödülü Al' },
+                { name: '', text: '', message: '', ctaText: '' },
+                { name: '', text: '', message: '', ctaText: '' },
+                { name: '', text: '', message: '', ctaText: '' },
+                { name: '', text: '', message: '', ctaText: '' },
+                { name: '', text: '', message: '', ctaText: '' },
+                { name: '', text: '', message: '', ctaText: ' ' },
+                { name: '', text: '', message: '', ctaText: '' },
+                { name: '', text: '', message: '', ctaText: '' },
             ]
             
         };
@@ -1085,7 +1090,8 @@
             audioNodes.spinStart = playAudio('spinStart');
 
             const spinDuration = 5000;
-            const targetSegment = Math.floor(Math.random() * config.wheelSegments);
+            const winningSegmentIndex = Math.floor(Math.random() * config.winningSegments.length);
+            const targetSegment = config.winningSegments[winningSegmentIndex];
             const degreesPerSegment = 360 / config.wheelSegments;
             const extraSpins = 5 * 360;
             const totalDegrees = extraSpins + (360 - targetSegment * degreesPerSegment) - (degreesPerSegment / 2);

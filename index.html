@@ -199,8 +199,8 @@
             padding: 20px;
             border-radius: 10px;
             text-align: center;
-            max-width: 350px;
-            max-height: 550px;
+            max-width: 600px;
+            max-height: 450px;
             width: 100%;
             height: 100%;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
@@ -1308,32 +1308,32 @@
         const acceptButton = document.getElementById('accept-button');
         const declineButton = document.getElementById('decline-button');
         const consentKey = 'user_consent';
-        
+
         function showConsentPopup() {
             if (!localStorage.getItem(consentKey)) {
                 consentPopup.style.display = 'flex';
             }
         }
-    
+
         function hideConsentPopup() {
             consentPopup.style.display = 'none';
         }
-    
+
         function handleAccept() {
             localStorage.setItem(consentKey, 'accepted');
             hideConsentPopup();
             console.log('Consent accepted.');
         }
-    
+
         function handleDecline() {
             localStorage.setItem(consentKey, 'declined');
             hideConsentPopup();
             console.log('Consent declined.');
         }
-    
+
         acceptButton.addEventListener('click', handleAccept);
         declineButton.addEventListener('click', handleDecline);
-    
+
         // Call the function to show the popup when the page loads
         document.addEventListener('DOMContentLoaded', showConsentPopup);
     </script>

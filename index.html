@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BETS10: Şansını Dene!</title>
     <style>
+
         /* CSS RESET & CUSTOM PROPERTIES */
         :root {
             --primary-color: #f7a61d;
@@ -41,6 +42,17 @@
             background-position: center;
             background-repeat: no-repeat;
             background-image: url('assets/bg.png');
+        }
+
+        .rain-item {
+            position: absolute;
+            width: 20px; 
+            height: 20px;
+            background-size: cover;
+            pointer-events: none; 
+            opacity: 0; 
+            animation: rainDrop 3s forwards ease-out; 
+            z-index: 9999;
         }
         
         /* HEADER ASSET */
@@ -115,6 +127,20 @@
             background-image: url('assets/pointer.png');
         }
 
+        @keyframes rainDrop {
+            0% {
+                transform: translateY(-1000px) rotateZ(0deg); 
+                opacity: 0;
+            }
+            10% {
+                opacity: 1; 
+            }
+            100% {
+                transform: translateY(100vh) rotateZ(720deg); 
+                opacity: 0; 
+            }
+        }
+
         @keyframes pointerIdle {
             0%, 100% { transform: translateY(0) rotate(0); }
             50% { transform: translateY(-3%) rotate(2deg); }
@@ -157,8 +183,8 @@
         /* POPUP */
         #popup-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 0px;
+            left: 0px;
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.7);
@@ -175,16 +201,17 @@
             text-align: center;
             max-width: 350px;
             max-height: 550px;
-            width: 90vw;
-            height: 90vh;
+            width: 100%;
+            height: 100%;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
             animation: fadeIn 0.5s ease-in-out;
             background-image: url('assets/popup-bg.png');
-            background-size: contain;
+            background-size: 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
             color: transparent;
             position: relative;
+            display: block;
         }
 
         #popup h3 {
@@ -202,16 +229,33 @@
             display: block;
             margin-top: 20px;
             padding: 10px 20px;
-            background-color: var(--accent-color);
             color: var(--text-color);
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
             transition: background-color 0.3s;
+            position: absolute;
+            text-decoration: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+
+        #popup-overlay a.cta-button-wrapper {
+            display: block;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 350px;
+            max-height: 550px;
+            text-decoration: none; 
         }
         
         #popup a.cta-button:hover {
-            background-color: #c62828;
+            background-color: transparent;
         }
 
         /* LAYOUT ELEMENTS - CHARACTER & DECORATIONS */
@@ -927,6 +971,58 @@
                 width: 270px; height: 270px; bottom: -100px; left: 150px;
             }
         }
+
+        /* Cookie Consent */
+        #consent-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+        }
+
+        #consent-content {
+            background-color: #28b65e;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+
+        .consent-buttons button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        #accept-button {
+            background-color: #4b524c;
+            color: white;
+        }
+
+        #decline-button {
+            background-color: #f44336;
+            color: white;
+        }
+
+        #accept-button:hover {
+            background-color: #45a049;
+        }
+
+        #decline-button:hover {
+            background-color: #da190b;
+        }
     </style>
 </head>
 <body>
@@ -958,11 +1054,12 @@
         <div id="popup">
             <h3 id="popup-title">Tebrikler!</h3>
             <p id="popup-message">Harika bir ödül kazandınız!</p>
-            <a href="#" class="cta-button" id="cta-button">Hemen Oyna!</a>
+            <a href="#" id="cta-button" class="cta-button"></a>
         </div>
     </div>
 
     <script>
+
         // --- CONFIGURATION ---
         const config = {
             ctaLink: 'https://example.com/register',
@@ -1127,13 +1224,30 @@
             }, spinDuration + 100);
         }
 
+        function createRainAnimation(imageSrc, count = 30) {
+            const container = document.body; 
+            for (let i = 0; i < count; i++) {
+                const item = document.createElement('div');
+                item.classList.add('rain-item');
+                item.style.backgroundImage = `url('${imageSrc}')`; 
+                item.style.left = `${Math.random() * 100}vw`; 
+                item.style.animationDelay = `${Math.random() * 2}s`; 
+                item.style.animationDuration = `${3 + Math.random() * 2}s`;
+                container.appendChild(item);
+            
+                item.addEventListener('animationend', () => {
+                    item.remove();
+                });
+            }
+        }
+
         function showResult(segmentIndex) {
             playAudio('win');
             pointer.classList.add('pointer-shake');
             
             const prize = config.prizes[segmentIndex];
             
-            createConfettiRain()
+            createRainAnimation('assets/sparkle.png', 500);
             
             popupTitle.textContent = prize.text;
             popupMessage.textContent = prize.message;
@@ -1174,6 +1288,55 @@
             }
                 
         document.addEventListener('DOMContentLoaded', init);
+
     </script>
+    <!-- Cookie Consent V2 -->
+    <div id="consent-popup">
+        <div id="consent-content">
+            <h3>Your Privacy Matters</h3>
+            <p>We use cookies and other technologies to customize the content and the ads, and also to analyze the traffic on our site. When you hitting click on "Accept", you give us your consent for the use of these technologies</p>
+            <div class="consent-buttons">
+                <button id="accept-button">Accept</button>
+                <button id="decline-button">Decline</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+                  // --- Consent popup logic ---
+        const consentPopup = document.getElementById('consent-popup');
+        const acceptButton = document.getElementById('accept-button');
+        const declineButton = document.getElementById('decline-button');
+        const consentKey = 'user_consent';
+        
+        function showConsentPopup() {
+            if (!localStorage.getItem(consentKey)) {
+                consentPopup.style.display = 'flex';
+            }
+        }
+    
+        function hideConsentPopup() {
+            consentPopup.style.display = 'none';
+        }
+    
+        function handleAccept() {
+            localStorage.setItem(consentKey, 'accepted');
+            hideConsentPopup();
+            console.log('Consent accepted.');
+        }
+    
+        function handleDecline() {
+            localStorage.setItem(consentKey, 'declined');
+            hideConsentPopup();
+            console.log('Consent declined.');
+        }
+    
+        acceptButton.addEventListener('click', handleAccept);
+        declineButton.addEventListener('click', handleDecline);
+    
+        // Call the function to show the popup when the page loads
+        document.addEventListener('DOMContentLoaded', showConsentPopup);
+    </script>
+
 </body>
 </html>

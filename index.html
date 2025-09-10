@@ -1059,6 +1059,11 @@
     </div>
 
     <script>
+        document.addEventListener('click', () => {
+          if (audioContext.state === 'suspended') {
+            audioContext.resume();
+          }
+        }, { once: true });
 
         // --- CONFIGURATION ---
         const config = {

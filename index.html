@@ -1059,12 +1059,6 @@
     </div>
 
     <script>
-        document.addEventListener("touchstart", unlockAudio, { once: true });
-            document.addEventListener("click", unlockAudio, { once: true });
-
-            document.addEventListener("touchstart", unlockAudio, { once: true });
-document.addEventListener("click", unlockAudio, { once: true });
-
             async function unlockAudio() {
               try {
                 if (audioContext.state === "suspended") {
@@ -1228,7 +1222,10 @@ document.addEventListener("click", unlockAudio, { once: true });
 
             spinButton.style.animation = 'none';
             pointer.classList.remove('pointer-shake');
-            stopAudio(audioNodes.spinLoop);
+            
+            if (audioNodes.spinLoop) {
+                stopAudio(audioNodes.spinLoop);
+              }
 
             audioNodes.spinStart = playAudio('spinStart');
             pointer.classList.add('pointer-shake');
@@ -1374,6 +1371,18 @@ document.addEventListener("click", unlockAudio, { once: true });
             localStorage.setItem(consentKey, 'accepted');
             hideConsentPopup();
             console.log('Consent accepted.');
+
+             if (audioContext.state === 'suspended') {
+                audioContext.resume().then(() => {
+                    startWheelLoop();
+                    spinWheel();
+                }).catch(e => {
+                    console.error("Error resuming AudioContext:", e);
+                });
+            } else {
+                startWheelLoop();
+                spinWheel();
+            }
         }
 
         function handleDecline() {

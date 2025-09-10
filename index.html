@@ -1165,14 +1165,14 @@
                 loadAudio(config.assets.sounds[name], name);
             }
             spinButton.addEventListener('click', spinWheel);
-            //startWheelLoop();
+            startWheelLoop();
             
             createConfettiRain()
         }
 
         function startWheelLoop() {
             if (audioNodes.spinLoop) return;
-            
+
             wheel.style.transition = 'transform 20s linear infinite';
             wheel.style.transform = `rotate(3600deg)`;
             audioNodes.spinLoop = playAudio('spinLoop', true);
@@ -1180,7 +1180,11 @@
         }
 
         function spinWheel() {
-            startWheelLoop();
+
+            if (audioContext.state === 'suspended') {
+                 audioContext.resume();
+                }
+
             if (isSpinning) return;
             isSpinning = true;
             spinButton.style.animation = 'none';

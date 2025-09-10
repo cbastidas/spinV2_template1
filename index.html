@@ -1062,13 +1062,27 @@
         document.addEventListener("touchstart", unlockAudio, { once: true });
             document.addEventListener("click", unlockAudio, { once: true });
 
-            function unlockAudio() {
-              if (audioContext.state === "suspended") {
-                audioContext.resume().then(() => {
-                  console.log("🎵 AudioContext woken up");
-                });
+            document.addEventListener("touchstart", unlockAudio, { once: true });
+document.addEventListener("click", unlockAudio, { once: true });
+
+            async function unlockAudio() {
+              try {
+                if (audioContext.state === "suspended") {
+                  await audioContext.resume();
+                }
+                await ensureAudioLoaded();
+            
+            
+                if (!audioNodes.spinLoop) {
+                  audioNodes.spinLoop = playAudio('spinLoop', true);
+                }
+
+                console.log("🎵 AudioContext ready & sounds preloaded");
+              } catch (e) {
+                console.error("Unlock/preload failed:", e);
               }
             }
+
 
 
         // --- CONFIGURATION ---
@@ -1151,6 +1165,16 @@
             }
         }
 
+            let audioPreloaded = false;
+            async function ensureAudioLoaded() {
+              if (audioPreloaded) return;
+              const sounds = config.assets.sounds;
+              const names = Object.keys(sounds);
+              await Promise.all(names.map(n => loadAudio(sounds[n], n)));
+              audioPreloaded = true;
+            }
+
+
         function playAudio(name, loop = false) {
             if (!audioBuffers[name]) {
                 console.warn(`Audio ${name} not loaded.`);
@@ -1176,8 +1200,9 @@
                 loadAudio(config.assets.sounds[name], name);
             }
             spinButton.addEventListener('click', spinWheel);
+            spinButton.addEventListener('touchstart', spinWheel, { passive: true });
+
             startWheelLoop();
-            
             createConfettiRain()
         }
 
@@ -1190,24 +1215,20 @@
             pointer.classList.add('pointer-shake');
         }
 
-        function spinWheel() {
+        async function spinWheel() {
 
             if (audioContext.state === 'suspended') {
                  audioContext.resume();
                 }
+            await ensureAudioLoaded();  
 
             if (isSpinning) return;
             isSpinning = true;
+
             spinButton.style.animation = 'none';
             pointer.classList.remove('pointer-shake');
             stopAudio(audioNodes.spinLoop);
-            
-            if (audioContext.state === "suspended") {
-              audioContext.resume().then(() => {
-                console.log("🎵 AudioContext woken up");
-              });
-            }
-            
+
             audioNodes.spinStart = playAudio('spinStart');
 
             const spinDuration = 5000;

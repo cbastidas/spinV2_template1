@@ -1220,6 +1220,7 @@ document.addEventListener("click", unlockAudio, { once: true });
             if (audioContext.state === 'suspended') {
                  audioContext.resume();
                 }
+
             await ensureAudioLoaded();  
 
             if (isSpinning) return;
@@ -1230,6 +1231,7 @@ document.addEventListener("click", unlockAudio, { once: true });
             stopAudio(audioNodes.spinLoop);
 
             audioNodes.spinStart = playAudio('spinStart');
+            pointer.classList.add('pointer-shake');
 
             const spinDuration = 5000;
             const winningSegmentIndex = Math.floor(Math.random() * config.winningSegments.length);
@@ -1332,7 +1334,11 @@ document.addEventListener("click", unlockAudio, { once: true });
                 }, 500); // Create a new particle every 500ms
             }
                 
-        document.addEventListener('DOMContentLoaded', init);
+        document.addEventListener('DOMContentLoaded', () => {
+            spinButton.addEventListener('click', spinWheel);
+            spinButton.addEventListener('touchstart', spinWheel, { passive: true });
+            ensureAudioLoaded();
+        });
 
     </script>
     <!-- Cookie Consent V2 -->

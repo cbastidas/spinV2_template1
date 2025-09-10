@@ -1202,6 +1202,12 @@
             pointer.classList.remove('pointer-shake');
             stopAudio(audioNodes.spinLoop);
             
+            if (audioContext.state === "suspended") {
+              audioContext.resume().then(() => {
+                console.log("🎵 AudioContext woken up");
+              });
+            }
+            
             audioNodes.spinStart = playAudio('spinStart');
 
             const spinDuration = 5000;

@@ -1341,11 +1341,11 @@
     <!-- Cookie Consent V2 -->
     <div id="consent-popup">
         <div id="consent-content">
-            <h3>Your Privacy Matters</h3>
-            <p>We use cookies and other technologies to customize the content and the ads, and also to analyze the traffic on our site. When you hitting click on "Accept", you give us your consent for the use of these technologies</p>
+            <h3>Gizliliğiniz Bizim İçin Önemlidir</h3>
+            <p>Sitemizdeki içeriği ve reklamları kişiselleştirmek, ayrıca site trafiğini analiz etmek için çerezler ve diğer teknolojileri kullanıyoruz. "Kabul Et" butonuna tıkladığınızda, bu teknolojilerin kullanımına onay vermiş olursunuz.</p>
             <div class="consent-buttons">
-                <button id="accept-button">Accept</button>
-                <button id="decline-button">Decline</button>
+                <button id="accept-button">Kabul Et</button>
+                <button id="decline-button">Reddet</button>
             </div>
         </div>
     </div>
@@ -1375,13 +1375,11 @@
              if (audioContext.state === 'suspended') {
                 audioContext.resume().then(() => {
                     startWheelLoop();
-                    spinWheel();
                 }).catch(e => {
                     console.error("Error resuming AudioContext:", e);
                 });
             } else {
                 startWheelLoop();
-                spinWheel();
             }
         }
 

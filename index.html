@@ -1059,11 +1059,17 @@
     </div>
 
     <script>
-        document.addEventListener('click', () => {
-          if (audioContext.state === 'suspended') {
-            audioContext.resume();
-          }
-        }, { once: true });
+        document.addEventListener("touchstart", unlockAudio, { once: true });
+            document.addEventListener("click", unlockAudio, { once: true });
+
+            function unlockAudio() {
+              if (audioContext.state === "suspended") {
+                audioContext.resume().then(() => {
+                  console.log("🎵 AudioContext woken up");
+                });
+              }
+            }
+
 
         // --- CONFIGURATION ---
         const config = {

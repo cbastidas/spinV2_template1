@@ -934,6 +934,24 @@
             height: 120%;
             }
         }
+
+        /* MEDIA QUERIES FOR Samsung galaxy S23 (412px x 892px) */
+        @media (width: 412px) and (height: 892px) {
+            #header-text {
+                position: absolute;
+                top: 0%;
+                left: 50%;
+                width: 80vw;
+                max-width: 1280px;
+                height: 30vw; /* Adjust based on asset's aspect ratio */
+                max-height: 1280px;
+                transform: translateX(-50%);
+                font-size: 2.2em;
+                background-image: url('assets/header.png');
+            }
+        }
+
+
         /* MEDIA QUERIES FOR DESKTOP LAYOUT (1280px */
         @media (min-width: 1280px) {
                 #popup {
@@ -960,8 +978,44 @@
             }
         }
 
+        /* MEDIA QUERIES FOR DESKTOP LAYOUT (1024 x 600p) */
+
+        @media (width: 1024px) and (height: 600px) {
+            #header-text {
+                position: absolute;
+                top: -15%;
+                left: 50%;
+                width: 80vw;
+                max-width: 1280px;
+                height: 30vw; /* Adjust based on asset's aspect ratio */
+                max-height: 1280px;
+                transform: translateX(-50%);
+                font-size: 2.2em;
+                background-image: url('assets/header.png');
+
+            }
+        }
+
+        /* MEDIA QUERIES FOR DESKTOP LAYOUT (1024 x 1366px) */
+
+        @media (width: 1024px) and (height: 1366px) {
+            #header-text {
+                position: absolute;
+                top: 0%;
+                left: 50%;
+                width: 80vw;
+                max-width: 1280px;
+                height: 30vw; /* Adjust based on asset's aspect ratio */
+                max-height: 1280px;
+                transform: translateX(-50%);
+                font-size: 2.2em;
+                background-image: url('assets/header.png');
+
+            }
+        }
+
         /* MEDIA QUERIES FOR DESKTOP LAYOUT (1024px and up) */
-        @media (min-width: 1024px) {
+        @media (min-width: 1024px){
 
             #spin-button {
                 position: absolute;
@@ -977,19 +1031,6 @@
                 background-image: url('assets/spin-button.png');
             }
 
-            #header-text {
-                position: absolute;
-                top: -18vh;
-                left: 50%;
-                width: 80vw;
-                max-width: 1280px;
-                height: 30vw; /* Adjust based on asset's aspect ratio */
-                max-height: 1280px;
-                transform: translateX(-50%);
-                font-size: 2.2em;
-                background-image: url('assets/header.png');
-
-            }
 
             #wheel-area {
                 position: absolute;

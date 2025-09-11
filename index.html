@@ -123,7 +123,7 @@
             background-repeat: no-repeat;
             background-position: center;
             transform-origin: bottom center;
-            animation: pointerIdle 1s infinite ease-in-out;
+            /*animation: pointerIdle 1s infinite ease-in-out;*/
             background-image: url('assets/pointer.png');
         }
 
@@ -335,7 +335,7 @@
             animation: confetti-twinkle 2s ease-out forwards;
             /*animation-fill-mode: forwards;*/
             pointer-events: none;
-            z-index: 99;
+            z-index: 9999;
             transform-origin: center center;
         }
 
@@ -372,6 +372,32 @@
             transform: translate(-50%, -50%) scale(0) rotate(360deg);
             opacity: 0;
         }
+        }
+
+        /* MEDIA QUERIES for 1280x800 */
+        @media (width: 1280px) and (height: 800px) {
+            #spin-button {
+                position: absolute;
+                width: 25%;
+                height: 25%;
+                z-index: 31 !important;
+                cursor: pointer;
+                border-radius: 50%;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: pulse 1s infinite;
+                background-image: url('assets/spin-button.png');
+            }
+
+            #spin-button:active {
+                transform: scale(0.95);
+            }
+
+            #decoration-2 {
+                width: 60px; height: 60px; top: 80px; right: 60px !important;
+            }
+
         }
 
          /* MEDIA QUERIES Surface Pro 912 x 1368 */
@@ -949,6 +975,11 @@
                 font-size: 2.2em;
                 background-image: url('assets/header.png');
             }
+
+            /* Grapes */
+            #decoration-2 {
+                width: 150px; height: 150px; top: 50px; right: 20px;
+            }
         }
 
 
@@ -967,7 +998,7 @@
                 position: absolute;
                 width: 25%;
                 height: 25%;
-                z-index: 201;
+                z-index: 32 !important;
                 cursor: pointer;
                 border-radius: 50%;
                 background-size: contain;
@@ -975,6 +1006,10 @@
                 background-position: center;
                 animation: pulse 1s infinite;
                 background-image: url('assets/spin-button.png');
+            }
+
+            #spin-button:active {
+            transform: scale(0.95);
             }
         }
 
@@ -1016,12 +1051,11 @@
 
         /* MEDIA QUERIES FOR DESKTOP LAYOUT (1024px and up) */
         @media (min-width: 1024px){
-
             #spin-button {
                 position: absolute;
                 width: 25%;
                 height: 25%;
-                z-index: 201;
+                z-index: 33 !important;
                 cursor: pointer;
                 border-radius: 50%;
                 background-size: contain;
@@ -1030,7 +1064,6 @@
                 animation: pulse 1s infinite;
                 background-image: url('assets/spin-button.png');
             }
-
 
             #wheel-area {
                 position: absolute;
@@ -1050,7 +1083,7 @@
             
             #character {
                 position: absolute;
-                width: 60%;
+                width: 40%;
                 height: 400px;
                 bottom: 0;
                 left: 0;
@@ -1067,8 +1100,9 @@
 
             /* Grapes */
             #decoration-2 {
-                width: 150px; height: 150px; top: 500px; right: 60px;
+                width: 100px; height: 100px; top: 50px; right: 60px;
             }
+                
             
             #decoration-3 {
                 width: 400px; height: 400px; bottom: -50px; right: -100px; z-index: 99;
@@ -1318,7 +1352,8 @@
             spinButton.addEventListener('touchstart', spinWheel, { passive: true });
 
             startWheelLoop();
-            createConfettiRain()
+            createConfettiRain();
+            createRainAnimation();
         }
 
         function startWheelLoop() {
@@ -1327,7 +1362,7 @@
             wheel.style.transition = 'transform 20s linear infinite';
             wheel.style.transform = `rotate(3600deg)`;
             audioNodes.spinLoop = playAudio('spinLoop', true);
-            pointer.classList.add('pointer-shake');
+           // pointer.classList.add('pointer-shake');
         }
 
         async function spinWheel() {
@@ -1342,14 +1377,14 @@
             isSpinning = true;
 
             spinButton.style.animation = 'none';
-            pointer.classList.remove('pointer-shake');
+            //pointer.classList.remove('pointer-shake');
             
             if (audioNodes.spinLoop) {
                 stopAudio(audioNodes.spinLoop);
               }
 
             audioNodes.spinStart = playAudio('spinStart');
-            pointer.classList.add('pointer-shake');
+            //pointer.classList.add('pointer-shake');
 
             const spinDuration = 5000;
             const winningSegmentIndex = Math.floor(Math.random() * config.winningSegments.length);
@@ -1413,6 +1448,7 @@
             const prize = config.prizes[segmentIndex];
             
             createRainAnimation('assets/sparkle.png', 500);
+            createConfettiRain();
             
             popupTitle.textContent = prize.text;
             popupMessage.textContent = prize.message;
@@ -1482,10 +1518,12 @@
             if (!localStorage.getItem(consentKey)) {
                 consentPopup.style.display = 'flex';
             }
+            createConfettiRain();
         }
 
         function hideConsentPopup() {
             consentPopup.style.display = 'none';
+            createConfettiRain();
         }
 
         function handleAccept() {

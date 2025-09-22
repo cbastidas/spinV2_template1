@@ -16,7 +16,7 @@
             /* Sizing and positioning variables */
             --stage-padding-top: 5vh;
             --header-font-size-mobile: 5vw;
-            --wheel-area-size-mobile: 100vw;
+            --wheel-area-size-mobile: 90vw;
         }
 
         body, html {
@@ -24,7 +24,8 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
+            overflow-y: auto;
+            overflow-x: hidden;
             font-family: var(--font-family);
             background: #2c0a4d;
         }
@@ -33,15 +34,26 @@
         #container {
             position: relative;
             width: 100%;
-            height: 100%;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             flex-direction: column;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-image: url('assets/bg.png');
+        }
+
+        #header-text {
+            position: absolute;
+            z-index: 999;
+            background-image: url('assets/header.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: fadeIn 1s ease-in-out;
+            pointer-events: none;
         }
 
         .rain-item {
@@ -55,29 +67,13 @@
             z-index: 9999;
         }
         
-        /* HEADER ASSET */
-        #header-text {
-            position: absolute;
-            top: 5vh;
-            width: 80vw;
-            max-width: 600px;
-            height: 15vw; /* Adjust based on asset's aspect ratio */
-            max-height: 100px;
-            z-index: 999;
-            background-image: url('assets/header.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            animation: fadeIn 1s ease-in-out;
-            pointer-events: none;
-        }
 
         /* WHEEL & SPIN AREA - ALWAYS CENTERED */
         #wheel-area {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: relative;
+            top: -80px;
+            left: auto;
+            transform: none;
             width: var(--wheel-area-size-mobile);
             height: var(--wheel-area-size-mobile);
             max-width: 500px;
@@ -126,6 +122,78 @@
             /*animation: pointerIdle 1s infinite ease-in-out;*/
             background-image: url('assets/pointer.png');
         }
+
+        #banners-section {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px; 
+            padding: 50px 20px;
+            box-sizing: border-box;
+            background-image: url('assets/bg.png');
+        }
+
+        .banner {
+            display: block;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .banner img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .banner.disabled {
+            pointer-events: none; 
+            opacity: 0.5; 
+            cursor: not-allowed;
+        }
+
+        #popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #popup-content {
+            width: 100%; 
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #popup-content img {
+
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+        }
+
+        #close-popup-btn {
+            position: absolute;
+            top: 5px;   
+            right: 5px;
+            width: 40px;
+            height: 40px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            z-index: 10;
+        }
+
 
         @keyframes rainDrop {
             0% {
@@ -225,24 +293,26 @@
             color: #555;
         }
 
-        #popup a.cta-button {
+        .cta-button {
+            position: absolute;
             display: block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            color: var(--text-color);
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-            position: absolute;
-            text-decoration: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10;
+            z-index: 5; 
         }
+
+        #hemen-al-btn {
+            bottom: 25px;
+            left: 20%; 
+            width: 30%;  
+            height: 60px; 
+        }
+
+        #takip-et-btn {
+            bottom: 25px; 
+            right: 20%;   
+            width: 30%;  
+            height: 60px; 
+        }
+
 
         #popup-overlay a.cta-button-wrapper {
             display: block;
@@ -374,170 +444,9 @@
         }
         }
 
-        /* MEDIA QUERIES for 1280x800 */
-        @media (width: 1280px) and (height: 800px) {
-            #spin-button {
-                position: absolute;
-                width: 25%;
-                height: 25%;
-                z-index: 31 !important;
-                cursor: pointer;
-                border-radius: 50%;
-                background-size: contain;
-                background-repeat: no-repeat;
-                background-position: center;
-                animation: pulse 1s infinite;
-                background-image: url('assets/spin-button.png');
-            }
 
-            #spin-button:active {
-                transform: scale(0.95);
-            }
-
-            #decoration-2 {
-                width: 60px; height: 60px; top: 80px; right: 60px !important;
-            }
-
-        }
-
-         /* MEDIA QUERIES Surface Pro 912 x 1368 */
-        @media (min-width: 912px) and (max-width: 1023px) {
-            
-            #popup {
-                width: 600px;
-                height: 450px;
-                background-image: url('assets/popup-bg-bigger.png');
-                background-size: 100% 100%;
-                background-position: center;
-                background-repeat: no-repeat;
-            }
-            #character {
-                position: absolute;
-                width: 90%;
-                height: 470px;
-                bottom: 10;
-                right: 10px;
-                z-index: 1000;
-            }
-
-            #wheel-area {
-                position: absolute;
-                max-width: 700px;
-                max-height: 700px;
-                width: 600px;
-                height: 600px;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                z-index: 5;
-            }
-
-            #header-text {
-            position: absolute;
-            top: 5vh;
-            width: 180vw;
-            max-width: 700px;
-            height: 85vw; /* Adjust based on asset's aspect ratio */
-            max-height: 180px;
-            z-index: 999;
-            background-image: url('assets/header-2.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            animation: fadeIn 1s ease-in-out;
-            pointer-events: none;
-        }
-
-         /* Grapes */
-            #decoration-2 {
-                width: 150px; height: 150px; top: 500px; right: 20px;
-            }
-
-             /* Swirl Candy */
-            #decoration-3 {
-                width: 350px; height: 350px; bottom: -70px; right: -100px;
-            }
-
-            /* Banana */
-            #decoration-4 {
-                width: 250px; height: 250px; bottom: -70px; right: 40px;
-            }
-
-            /* Green Diamond */
-            #decoration-6 {
-                width: 150px; height: 150px; bottom: 770px; left: -70px;
-            }
-
-            /* Candy Ball */
-            #decoration-8 {
-                width: 300px; height: 300px; bottom: -130px; left: 200px;
-            }
-
-            /*Purple Diamond | Peach*/
-            #decoration-5, #decoration-7 {
-                display: none;
-            }
-
-        }
-
-         /* MEDIA QUERIES iPad Mini 820 x 911 */
-        @media (min-width: 820px) and (max-width: 911px) {
-            #popup {
-                width: 600px;
-                height: 450px;
-                background-image: url('assets/popup-bg-bigger.png');
-                background-size: 100% 100%;
-                background-position: center;
-                background-repeat: no-repeat;
-            }
-            #character {
-                position: absolute;
-                width: 90%;
-                height: 470px;
-                bottom: 10;
-                right: 10px;
-                z-index: 1000;
-            }
-
-            #wheel-area {
-                position: absolute;
-                max-width: 800px;
-                max-height: 800px;
-                width: 500px;
-                height: 500px;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                z-index: 5;
-            }
-
-            #decoration-2 {
-                width: 150px; height: 150px; top: 180px; right: 100px;
-            }
-
-            #decoration-3 {
-               width: 400px; height: 400px; bottom: -110px; right: -120px; z-index: 99;
-            }
-
-            #decoration-4 {
-               width: 250px; height: 250px; bottom: -80px; right: 50px; z-index: 100; 
-            }
-
-             #decoration-6 {
-                width: 150px; height: 150px; bottom: 780px; left: -70px; z-index: 98;
-            }
-
-            #decoration-1 {
-                width: 120px; height: 120px; top: 210px; left: 300px;
-            }
-
-             #decoration-8 {
-                width: 270px; height: 270px; bottom: -40px; left: -50px;
-            }
-        }
-
-         /* MEDIA QUERIES FOR Mobile LAYOUT (400px to 539px) */
-        @media (min-width: 400px) and (max-width: 539px) {
+         /* MEDIA QUERIES FOR iPHONE 14 PRO MAX (430px to 932px) */
+        @media (width: 430px) and (height: 932px) {
 
             #popup {
                 width: 300px;
@@ -547,145 +456,64 @@
                 background-position: center;
                 background-repeat: no-repeat;
             }
-             #character {
-                position: absolute;
-                width: 70%;
-                height: 320px;
-                bottom: 0;
-                left: 120px;
-                z-index: 1000;
-            }
 
-              #decoration-1, #decoration-5, #decoration-7 {
-                display: none;
-            }
-
-             #decoration-2 {
-                width: 150px; height: 150px; top: 550px; right: -30px;
-            }
-
-             #decoration-3 {
-                width: 400px; height: 400px; bottom: -150px; left: -180px; z-index: 99;
-            }
-
-            #decoration-4 {
-                width: 150px; height: 150px; top: 220px; left: -30px; z-index: 100;
-            }
-
-            #decoration-6 {
-                width: 200px; height: 200px; bottom: -60px; left: 300px; z-index: 98;
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 67vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('assets/bg.png');
             }
             
-
-            #header-text {
-            position: absolute;
-            top: 5vh;
-            width: 180vw;
-            max-width: 700px;
-            height: 85vw; /* Adjust based on asset's aspect ratio */
-            max-height: 180px;
-            z-index: 999;
-            background-image: url('assets/header-mb.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            animation: fadeIn 1s ease-in-out;
-            pointer-events: none;
-        }
-
-        }
-
-        /* MEDIA QUERIES FOR Mobile LAYOUT (390 to 399px) */
-        @media (min-width: 390px) and (max-width: 399px) {
-            #popup {
-            width: 300px;
-            height: 240px;
-            background-image: url('assets/popup-bg-mb.png');
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            }
-            
-
             #wheel-area {
                 position: absolute;
-                max-width: 350px;
-                max-height: 350px;
-                width: 80%;
-                height: 80%;
-                top: 50%;
+                top: 67%;
                 left: 50%;
                 transform: translate(-50%, -50%);
+                width: var(--wheel-area-size-mobile);
+                height: var(--wheel-area-size-mobile);
+                max-width: 500px;
+                max-height: 500px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 z-index: 5;
             }
 
             #header-text {
-            position: absolute;
-            top: 5vh;
-            width: 180vw;
-            max-width: 600px;
-            height: 85vw; /* Adjust based on asset's aspect ratio */
-            max-height: 120px;
-            z-index: 999;
-            background-image: url('assets/header-mb.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            animation: fadeIn 1s ease-in-out;
-            pointer-events: none;
-            }
-
-            #character {
                 position: absolute;
-                max-width: 250px;
-                width: 60%;
-                max-height: 250px;
-                height: 40%;
-                bottom: 0;
-                left: 110px;
-                z-index: 1000;
+                top: 5vh;
+                left: -135px;
+                width: 180vw;
+                max-width: 700px;
+                height: 85vw; /* Adjust based on asset's aspect ratio */
+                max-height: 180px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
             }
 
-            /* Grapes */
-             #decoration-2 {
-                width: 80px; height: 80px; top: 550px; right: 10px;
-            }
-
-            /*Swirl Candy*/
-            #decoration-3 {
-                width: 150px; height: 150px; bottom: -80px; left: -20px; z-index: 99;
-            }
-
-            /*Banana*/
-            #decoration-4 {
-                width: 100px; height: 150px; top: 160px; left: -30px; z-index: 100;
-            }
-
-            /*Green Diamond*/
-            #decoration-6 {
-                width: 150px; height: 150px; bottom: -60px; left: 280px; z-index: 98;
-            }
-
-            /* Red Heart | Candy Ball | Peach | Purple Diamond*/
-             #decoration-1, #decoration-8, #decoration-7, #decoration-5 {
-                display: none;
-            }
-
-            #pointer {
-                top: 2%;
-            }
         }
 
-        /* MEDIA QUERIES FOR Mobile LAYOUT (375 to 389px) */
-        @media (min-width: 375px) and (max-width: 389px) {
-
+        /* MEDIA QUERIES FOR iPhone 12 Pro (390 x 844) */
+        @media (width: 390px) and (height: 844px) {
             #popup {
-            width: 300px;
-            height: 240px;
-            background-image: url('assets/popup-bg-mb.png');
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
+                width: 300px;
+                height: 240px;
+                background-image: url('assets/popup-bg-mb.png');
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
             }
 
             #wheel-area {
@@ -694,26 +522,97 @@
                 max-height: 350px;
                 width: 80%;
                 height: 80%;
-                top: 50%;
+                top: 67%;
                 left: 50%;
                 transform: translate(-50%, -50%);
                 z-index: 5;
             }
 
             #header-text {
-            position: absolute;
-            top: 5vh;
-            width: 180vw;
-            max-width: 600px;
-            height: 85vw; /* Adjust based on asset's aspect ratio */
-            max-height: 120px;
-            z-index: 999;
-            background-image: url('assets/header-mb.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            animation: fadeIn 1s ease-in-out;
-            pointer-events: none;
+                position: absolute;
+                top: 5vh;
+                left: -105px;
+                width: 180vw;
+                max-width: 600px;
+                height: 85vw; /* Adjust based on asset's aspect ratio */
+                max-height: 120px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
+            }
+
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 60vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('assets/bg.png');
+            }
+        }
+
+        /* MEDIA QUERIES FOR iPhone SE (375x667) */
+        @media (width: 375px) and (height: 667px) {
+
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 75vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('assets/bg.png');
+            }
+
+            #popup {
+                width: 300px;
+                height: 240px;
+                background-image: url('assets/popup-bg-mb.png');
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            #wheel-area {
+                position: absolute;
+                max-width: 350px;
+                max-height: 350px;
+                width: 80%;
+                height: 80%;
+                top: 60%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 5;
+            }
+
+            #header-text {
+                position: absolute;
+                top: 20px;
+                left: 0px;
+                width: 100%;
+                max-width: 600px;
+                height: 100%; /* Adjust based on asset's aspect ratio */
+                max-height: 120px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
             }
 
             #character {
@@ -757,207 +656,329 @@
             }
         }
 
-        /* MEDIA QUERIES FOR Mobile LAYOUT (250 to 374px) */
-        @media (min-width: 250px) and (max-width: 374px) {
-
-            #popup {
-            width: 200px;
-            height: 150px;
-            background-image: url('assets/popup-bg-mb.png');
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            }
-
-             #character {
-                position: absolute;
-                width: 70%;
-                height: 250px;
-                bottom: 0;
-                left: 120px;
-                z-index: 1000;
-            }
-
-              #decoration-1, #decoration-5, #decoration-7, #decoration-8 {
-                display: none;
-            }
-
-             #decoration-2 {
-                width: 120px; height: 120px; top: 450px; right: -30px;
-            }
-
-            #decoration-3 {
-                width: 300px; height: 300px; bottom: -150px; left: -180px; z-index: 99;
-            }
-
-            #decoration-4 {
-                width: 110px; height: 110px; top: 220px; left: -40px; z-index: 100;
-            }
-
-            #decoration-6 {
-                width: 150px; height: 150px; bottom: -60px; left: 280px; z-index: 98;
-            }
-            
-
-            #header-text {
-            position: absolute;
-            top: 5vh;
-            width: 180vw;
-            max-width: 700px;
-            height: 85vw; /* Adjust based on asset's aspect ratio */
-            max-height: 140px;
-            z-index: 999;
-            background-image: url('assets/header-mb.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            animation: fadeIn 1s ease-in-out;
-            pointer-events: none;
-        }
-
-        }
-
-        
-        /* MEDIA QUERIES FOR Mobile LAYOUT (540px to 767px) */
-        @media (min-width: 540px) and (max-width: 767px) {
-
-            #popup {
-            width: 300px;
-            height: 240px;
-            background-image: url('assets/popup-bg-mb.png');
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
+        /* MEDIA QUERIES FOR iPhone XR (414x896) */
+        @media (width: 414px) and (height: 896px) {
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 60vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('assets/bg.png');
             }
 
             #wheel-area {
                 position: absolute;
                 max-width: 350px;
                 max-height: 350px;
-                width: 600px;
-                height: 600px;
-                top: 50%;
+                width: 100%;
+                height: 100%;
+                top: 60%;
                 left: 50%;
                 transform: translate(-50%, -50%);
                 z-index: 5;
             }
-
             #header-text {
-            position: absolute;
-            top: -15vh;
-            width: 180vw;
-            max-width: 500px;
-            height: 70vw; /* Adjust based on asset's aspect ratio */
-            max-height: 580px;
-            z-index: 999;
-            background-image: url('assets/header-2.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            animation: fadeIn 1s ease-in-out;
-            pointer-events: none;
-            }
-
-            #decoration-1, #decoration-5, #decoration-7 {
-                display: none;
-            }
-
-            #character {
                 position: absolute;
-                max-width: 400px;
-                width: 60%;
-                max-height: 300px;
-                height: 40%;
-                bottom: 0;
+                top: 20px;
                 left: 0px;
-                z-index: 1000;
+                width: 100%;
+                max-width: 600px;
+                height: 100%; /* Adjust based on asset's aspect ratio */
+                max-height: 120px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
             }
 
-             /*Grapes */
-            #decoration-2 {
-                width: 110px; height: 110px; top: 150px; right: 30px;
+            #popup {
+                width: 300px;
+                height: 240px;
+                background-image: url('assets/popup-bg-mb.png');
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
             }
-
-            /*Swirl Candy*/
-            #decoration-3 {
-                width: 250px; height: 250px; bottom: -80px; right: -80px; z-index: 99;
-            }
-
-            /*Banana*/
-            #decoration-4 {
-                width: 150px; height: 150px; bottom: -40px; right: 30px; z-index: 100;
-            }
-
-             #decoration-6 {
-                width: 200px; height: 200px; bottom: -60px; left: 450px; z-index: 98;
-            }
-
-            /* Candy Ball */
-             #decoration-8 {
-                width: 170px; height: 170px; bottom: -70px; left: 100px;
-            }
+        
         }
 
-
-        /* MEDIA QUERIES FOR TABLET LAYOUT (768px to 819px) */
-        @media (min-width: 768px) and (max-width: 819px) {
-            #popup {
-            width: 600px;
-            height: 450px;
-            background-image: url('assets/popup-bg-bigger.png');
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
+        /* MEDIA QUERIES FOR Pixel 7 and Galaxy S20 Ultra (412 to 915px) */
+        @media (width: 412px) and (height: 915px) {
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 60vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('assets/bg.png');
             }
-
-            #character {
-                position: absolute;
-                width: 60%;
-                height: 340px;
-                bottom: 0;
-                left: 80px;
-                z-index: 1000;
-            }
-
-            #decoration-1, #decoration-5, #decoration-7 {
-                display: none;
-            }
-
-            #decoration-2 {
-                width: 150px; height: 150px; top: 130px; right: 50px;
-            }
-
-            #decoration-3 {
-                width: 250px; height: 250px; bottom: -60px; right: -60px;
-            }
-            
-            #decoration-4 {
-                width: 150px; height: 150px; bottom: 0px; right: 80px; z-index: 100;
-            }
-
-             #decoration-6 {
-                width: 170px; height: 170px; top: 150px; left: -50px;
-            }
-
-            #decoration-8 {
-                width: 210px; height: 210px; bottom: -60px; left: -60px;
-            }
-
-           
 
             #wheel-area {
                 position: absolute;
-                width: 550px;
-                height: 550px;
-                top: 50%;
+                max-width: 350px;
+                max-height: 350px;
+                width: 100%;
+                height: 100%;
+                top: 60%;
                 left: 50%;
                 transform: translate(-50%, -50%);
                 z-index: 5;
             }
+            #header-text {
+                position: absolute;
+                top: 20px;
+                left: 0px;
+                width: 100%;
+                max-width: 600px;
+                height: 100%; /* Adjust based on asset's aspect ratio */
+                max-height: 120px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
+            }
 
-            #wheel {
-            width: 120%;
-            height: 120%;
+            #popup {
+                width: 300px;
+                height: 240px;
+                background-image: url('assets/popup-bg-mb.png');
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        }
+
+        /* MEDIA QUERIES FOR Samsung Galaxy S8 Plus (360 to 740) */
+        @media (width: 360px) and (height: 740px){
+
+            #popup {
+                width: 300px;
+                height: 240px;
+                background-image: url('assets/popup-bg-mb.png');
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 75vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('assets/bg.png');
+            }
+
+            #wheel-area {
+                position: absolute;
+                max-width: 350px;
+                max-height: 350px;
+                width: 90%;
+                height: 100%;
+                top: 60%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 5;
+            }
+            #header-text {
+                position: absolute;
+                top: 20px;
+                left: 0px;
+                width: 100%;
+                max-width: 600px;
+                height: 100%; /* Adjust based on asset's aspect ratio */
+                max-height: 120px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
+            }
+        }
+
+        /* MEDIA QUERIES FOR TABLET iPAD MINI (768px to 1024px) */
+        @media (width: 768px) and (height: 1024px) {
+            #popup {
+                width: 300px;
+                height: 240px;
+                background-image: url('assets/popup-bg-mb.png');
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 75vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('assets/bg.png');
+            }
+
+            #wheel-area {
+                position: absolute;
+                max-width: 550px;
+                max-height: 550px;
+                width: 90%;
+                height: 100%;
+                top: 60%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 5;
+            }
+            #header-text {
+                position: absolute;
+                top: 20px;
+                left: 82px;
+                width: 100%;
+                max-width: 600px;
+                height: 100%; /* Adjust based on asset's aspect ratio */
+                max-height: 120px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: 70%;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
+            }
+        }
+
+        /* MEDIA QUERIES FOR iPAD Air (820px to 1180px) */
+        @media (width: 820px) and (height: 1180px) {
+            #popup {
+                width: 300px;
+                height: 240px;
+                background-image: url('assets/popup-bg-mb.png');
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 65vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('assets/bg.png');
+            }
+
+            #wheel-area {
+                position: absolute;
+                max-width: 550px;
+                max-height: 550px;
+                width: 90%;
+                height: 100%;
+                top: 60%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 5;
+            }
+            #header-text {
+                position: absolute;
+                top: 20px;
+                left: 110px;
+                width: 100%;
+                max-width: 600px;
+                height: 100%; /* Adjust based on asset's aspect ratio */
+                max-height: 120px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: 70%;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
+            }
+        }
+
+        /* MEDIA QUERIES FOR Asus Zenbook Fold (853px to 1280px) */
+        @media (width: 853px) and (height: 1280px) {
+            #popup {
+                width: 600px;
+                height: 540px;
+                background-image: url('assets/popup-bg-mb.png');
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 65vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('assets/bg.png');
+            }
+
+            #wheel-area {
+                position: absolute;
+                max-width: 550px;
+                max-height: 550px;
+                width: 90%;
+                height: 100%;
+                top: 60%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 5;
+            }
+            #header-text {
+                position: absolute;
+                top: 45px;
+                left: 116px;
+                width: 100%;
+                max-width: 600px;
+                height: 100%; /* Adjust based on asset's aspect ratio */
+                max-height: 120px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: 70%;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
             }
         }
 
@@ -975,155 +996,429 @@
                 font-size: 2.2em;
                 background-image: url('assets/header.png');
             }
-
-            /* Grapes */
-            #decoration-2 {
-                width: 150px; height: 150px; top: 50px; right: 20px;
-            }
         }
 
-
-        /* MEDIA QUERIES FOR DESKTOP LAYOUT (1280px */
-        @media (min-width: 1280px) {
-                #popup {
-                    width: 600px;
-                    height: 450px;
-                    background-image: url('assets/popup-bg-bigger.png');
-                    background-size: 100% 100%;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                }
-            
-                #spin-button {
-                position: absolute;
-                width: 25%;
-                height: 25%;
-                z-index: 32 !important;
-                cursor: pointer;
-                border-radius: 50%;
-                background-size: contain;
-                background-repeat: no-repeat;
+        /* MEDIA QUERIES FOR Samsung galaxy A51/A71 (412px x 914px) */
+        @media (width: 412px) and (height: 914px) {
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 60vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
                 background-position: center;
-                animation: pulse 1s infinite;
-                background-image: url('assets/spin-button.png');
-            }
-
-            #spin-button:active {
-            transform: scale(0.95);
-            }
-        }
-
-        /* MEDIA QUERIES FOR DESKTOP LAYOUT (1024 x 600p) */
-
-        @media (width: 1024px) and (height: 600px) {
-            #header-text {
-                position: absolute;
-                top: -15%;
-                left: 50%;
-                width: 80vw;
-                max-width: 1280px;
-                height: 30vw; /* Adjust based on asset's aspect ratio */
-                max-height: 1280px;
-                transform: translateX(-50%);
-                font-size: 2.2em;
-                background-image: url('assets/header.png');
-
-            }
-        }
-
-        /* MEDIA QUERIES FOR DESKTOP LAYOUT (1024 x 1366px) */
-
-        @media (width: 1024px) and (height: 1366px) {
-            #header-text {
-                position: absolute;
-                top: 0%;
-                left: 50%;
-                width: 80vw;
-                max-width: 1280px;
-                height: 30vw; /* Adjust based on asset's aspect ratio */
-                max-height: 1280px;
-                transform: translateX(-50%);
-                font-size: 2.2em;
-                background-image: url('assets/header.png');
-
-            }
-        }
-
-        /* MEDIA QUERIES FOR DESKTOP LAYOUT (1024px and up) */
-        @media (min-width: 1024px){
-            #spin-button {
-                position: absolute;
-                width: 25%;
-                height: 25%;
-                z-index: 33 !important;
-                cursor: pointer;
-                border-radius: 50%;
-                background-size: contain;
                 background-repeat: no-repeat;
-                background-position: center;
-                animation: pulse 1s infinite;
-                background-image: url('assets/spin-button.png');
+                background-image: url('assets/bg.png');
             }
 
             #wheel-area {
                 position: absolute;
+                max-width: 350px;
+                max-height: 350px;
+                width: 100%;
+                height: 100%;
+                top: 60%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 5;
+            }
+            #header-text {
+                position: absolute;
+                top: 20px;
+                left: 0px;
+                width: 100%;
+                max-width: 600px;
+                height: 100%; /* Adjust based on asset's aspect ratio */
+                max-height: 120px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
+            }
+
+            #popup {
+                width: 300px;
+                height: 240px;
+                background-image: url('assets/popup-bg-mb.png');
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        }
+
+        /* MEDIA QUERIES FOR iPad Pro (1024 x 1366px) */
+        @media (width: 1024px) and (height: 1366px) {
+           #popup {
+                width: 500px;
+                height: 440px;
+                background-image: url('assets/popup-bg-mb.png');
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 75vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('assets/bg.png');
+            }
+
+            #wheel-area {
+                position: absolute;
+                max-width: 700px;
+                max-height: 700px;
+                width: 90%;
+                height: 100%;
+                top: 63%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 5;
+            }
+
+            #header-text {
+                position: absolute;
+                top: 30px;
+                left: 60px;
+                width: 100%;
                 max-width: 900px;
-                width: 70vw;
-                max-height: 900px;
-                height: 70vh;
+                height: 100%; /* Adjust based on asset's aspect ratio */
+                max-height: 220px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: 70%;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
+            }
+        }
+
+        /* MEDIA QUERIES FOR Surface 7 Pro (912 x 1368px) */
+        @media (width: 912px) and (height: 1368px) {
+
+            #consent-content {
+                background-color: #28b65e;
+                padding: 30px;
+                border-radius: 10px;
+                text-align: center;
+                max-width: 600px;
+                width: 100%;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+                color: white;
+            }
+
+           #popup {
+                width: 500px;
+                height: 440px;
+                background-image: url('assets/popup-bg-mb.png');
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 75vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('assets/bg.png');
+            }
+
+            #wheel-area {
+                position: absolute;
+                max-width: 700px;
+                max-height: 700px;
+                width: 90%;
+                height: 100%;
+                top: 63%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 5;
+            }
+
+            #header-text {
+                position: absolute;
+                top: 30px;
+                left: 5px;
+                width: 100%;
+                max-width: 900px;
+                height: 100%; /* Adjust based on asset's aspect ratio */
+                max-height: 220px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: 70%;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
+            }
+        }
+
+        /* MEDIA QUERIES FOR Surface Duo (540 x 720px) */
+        @media (width: 540px) and (height: 720px) {
+
+            #pointer {
+                position: absolute;
+                top: 9%;
+                width: 20%;
+                height: 20%;
+                z-index: 20;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                transform-origin: bottom center;
+                background-image: url('assets/pointer.png');
+             }
+
+           #popup {
+                width: 300px;
+                height: 240px;
+                background-image: url('assets/popup-bg-mb.png');
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 85vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('assets/bg.png');
+            }
+
+            #wheel-area {
+                position: absolute;
+                max-width: 700px;
+                max-height: 700px;
+                width: 70%;
+                height: 100%;
+                top: 63%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 5;
+            }
+
+            #header-text {
+                position: absolute;
+                top: -30px;
+                left: 0px;
+                width: 100%;
+                max-width: 900px;
+                height: 100%; /* Adjust based on asset's aspect ratio */
+                max-height: 220px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: 70%;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
+            }
+        }
+
+        /* MEDIA QUERIES FOR Galaxy Z Fold 5 (344 x 882px) */
+        @media (width: 344px) and (height: 882px) {
+
+            #pointer {
+                position: absolute;
+                top: -10%;
+                width: 20%;
+                height: 20%;
+                z-index: 20;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                transform-origin: bottom center;
+                background-image: url('assets/pointer.png');
+             }
+
+           #popup {
+                width: 200px;
+                height: 140px;
+                background-image: url('assets/popup-bg-mb.png');
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 52vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('assets/bg.png');
+            }
+
+            #wheel-area {
+                position: absolute;
+                max-width: 300px;
+                max-height: 300px;
+                width: 90%;
+                height: 100%;
+                top: 65%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 5;
+            }
+
+            #header-text {
+                position: absolute;
+                top: -30px;
+                left: 0px;
+                width: 100%;
+                max-width: 900px;
+                height: 100%; /* Adjust based on asset's aspect ratio */
+                max-height: 220px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: 70%;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
+            }
+        }
+
+        /* MEDIA QUERIES FOR 1920px */
+        @media (min-width: 1920px) {
+             #popup {
+                width: 500px;
+                height: 440px;
+                background-image: url('assets/popup-bg-mb.png');
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('assets/bg.png');
+            }
+
+            #wheel-area {
+                position: absolute;
+                max-width: 700px;
+                max-height: 700px;
+                width: 90%;
+                height: 100%;
+                top: 63%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 5;
+            }
+
+            #header-text {
+                position: absolute;
+                top: 30px;
+                left: 510px;
+                width: 100%;
+                max-width: 900px;
+                height: 100%; /* Adjust based on asset's aspect ratio */
+                max-height: 220px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: 70%;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
+            }
+        }
+
+        /* MEDIA QUERIES FOR Screens between 1024px and 1920px */
+        @media (min-width: 1025px) and (max-width: 1919px) {
+            #popup {
+                width: 500px;
+                height: 440px;
+                background-image: url('assets/popup-bg-mb.png');
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            #container {
+                position: relative;
+                width: 100%;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('assets/bg.png');
+            }
+
+            #wheel-area {
+                position: absolute;
+                max-width: 500px;
+                max-height: 500px;
+                width: 90%;
+                height: 75%;
                 top: 60%;
                 left: 50%;
                 transform: translate(-50%, -50%);
                 z-index: 5;
             }
 
-            #pointer {
-                top: -5%;
-            }
-            
-            #character {
+            #header-text {
                 position: absolute;
-                width: 40%;
-                height: 400px;
-                bottom: 0;
-                left: 0;
-                z-index: 100;
-            }
-
-
-
-            /* Desktop decoration placements */
-            /* Red heart*/
-            #decoration-1 {
-                width: 200px; height: 200px; top: 50px; left: -40px;
-            }
-
-            /* Grapes */
-            #decoration-2 {
-                width: 100px; height: 100px; top: 50px; right: 60px;
-            }
-                
-            
-            #decoration-3 {
-                width: 400px; height: 400px; bottom: -50px; right: -100px; z-index: 99;
-            }
-
-            #decoration-4 {
-                width: 250px; height: 250px; bottom: -80px; right: 50px; z-index: 100;
-            }
-            
-            #decoration-5, #decoration-7 { 
-                display: none;
-            }
-
-             /* Green Diamond */
-            #decoration-6 {
-                width: 200px; height: 200px; top: 400px; left: -60px; z-index: 98;
-            }
-
-             /* Candy Ball */
-             #decoration-8 {
-                width: 270px; height: 270px; bottom: -100px; left: 150px;
+                top: -30px;
+                left: 180px;
+                width: 100%;
+                max-width: 900px;
+                height: 90%; /* Adjust based on asset's aspect ratio */
+                max-height: 200px;
+                z-index: 999;
+                background-image: url('assets/header.png');
+                background-size: 40%;
+                background-repeat: no-repeat;
+                background-position: center;
+                animation: fadeIn 1s ease-in-out;
+                pointer-events: none;
             }
         }
 
@@ -1204,12 +1499,36 @@
         <div class="decoration-element" id="decoration-7"></div>
         <div class="decoration-element" id="decoration-8"></div>
     </div>
+        <div id="banners-section">
+        <a href="URL_BANNER_1" class="banner" id="banner-1">
+            <img src="/assets/banners/Bets10.gif" alt="Banner 1">
+        </a>
+        <a href="URL_BANNER_2" class="banner" id="banner-2">
+            <img src="/assets/banners/Davegas.gif" alt="Banner 2">
+        </a>
+        <a href="URL_BANNER_3" class="banner" id="banner-3">
+            <img src="/assets/banners/Discount Casino.gif" alt="Banner 3">
+        </a>
+        <a href="URL_BANNER_4" class="banner" id="banner-4">
+            <img src="/assets/banners/Hovarda.gif" alt="Banner 4">
+        </a>
+        <a href="URL_BANNER_5" class="banner" id="banner-5">
+            <img src="/assets/banners/Milyar.gif" alt="Banner 5">
+        </a>
+        <a href="URL_BANNER_6" class="banner" id="banner-6">
+            <img src="/assets/banners/Telegram-banner.gif" alt="Banner 6">
+        </a>
+        <a href="URL_BANNER_7" class="banner" id="banner-7">
+            <img src="/assets/banners/winnit.gif" alt="Banner 7">
+        </a>
+        </div>
+
 
     <div id="popup-overlay">
         <div id="popup">
-            <h3 id="popup-title">Tebrikler!</h3>
-            <p id="popup-message">Harika bir ödül kazandınız!</p>
-            <a href="#" id="cta-button" class="cta-button"></a>
+            <div id="close-popup-btn"></div> 
+            <a href="#" class="cta-button" id="hemen-al-btn"></a>
+            <a href="#" class="cta-button" id="takip-et-btn"></a>
         </div>
     </div>
 
@@ -1238,7 +1557,7 @@
         const config = {
             ctaLink: 'https://example.com/register',
             wheelSegments: 6,
-            winningSegments: [0, 2, 4],
+            //winningSegments: [0, 2, 4],
             assets: {
                 background: 'assets/bg.png',
                 wheel: 'assets/wheel.png',
@@ -1277,17 +1596,30 @@
                 }
             },
             prizes: [
-                { name: '', text: '', message: '', ctaText: '' },
-                { name: '', text: '', message: '', ctaText: '' },
-                { name: '', text: '', message: '', ctaText: '' },
-                { name: '', text: '', message: '', ctaText: '' },
-                { name: '', text: '', message: '', ctaText: '' },
-                { name: '', text: '', message: '', ctaText: ' ' },
-                { name: '', text: '', message: '', ctaText: '' },
-                { name: '', text: '', message: '', ctaText: '' },
+                { name: '%200 Bonus + 50FS', text: '', message: '', ctaText: '', bannerImage: 'assets/popups/B10-popup.png', ctaLink: 'https://bonus.1387bets10.com/tr/ilk-para-yatirma-bonusu/' },
+                { name: '%300 Bonus HV', text: '', message: '', ctaText: '', bannerImage: 'assets/popups/Hovarda-popup.png', ctaLink: 'https://hovarda.com/tr/kampanyalar/eglenceyi-300-bonus-ile-baslat'  },
+                { name: '5000TL Bonus + 50FS', text: '', message: '', ctaText: '', bannerImage: 'assets/popups/Winnit-popup.png', ctaLink: 'https://winnit47.com/tr/kampanyalar/winnit-hosgeldin-bonuslarin'  },
+                { name: '5000TL Nakit Iade', text: '', message: '', ctaText: '', bannerImage: 'assets/popups/DC-popup.png', ctaLink: 'https://discountcasino725.com/tr/kampanyalar/yeni-uyelere-ozel-nakit-odemeler'  },
+                { name: '8000TL Bonus + 300FS', text: '', message: '', ctaText: '', bannerImage: 'assets/popups/DV-popup.png', ctaLink: 'hhttps://davegas.com/tr/kampanyalar/birinci-hos-geldin-bonusu'  },
+                { name: '8000TL Bonus', text: '', message: '', ctaText: '', bannerImage: 'assets/popups/Milyar-popup.png', ctaLink: 'https://milyar.com/tr/kampanyalar/8000tl-kadar-hos-geldin-bonusu'  },
             ]
             
         };
+
+
+        const hemenAlBtn = document.getElementById('hemen-al-btn');
+        const takipEtBtn = document.getElementById('takip-et-btn');
+
+        //Closing the popup
+        const closePopupButton = document.getElementById('close-popup-btn');
+        closePopupButton.addEventListener('click', closePopup);
+
+        function closePopup() {
+            popupOverlay.style.display = 'none';
+            startWheelLoop();
+        }
+
+        
 
         const wheel = document.getElementById('wheel');
         const spinButton = document.getElementById('spin-button');
@@ -1297,6 +1629,7 @@
         const popupMessage = document.getElementById('popup-message');
         const ctaButton = document.getElementById('cta-button');
         const container = document.getElementById('container');
+        const banners = document.querySelectorAll('.banner');
         
         let isSpinning = false;
         let lastSegmentIndex = -1;
@@ -1352,8 +1685,8 @@
             spinButton.addEventListener('touchstart', spinWheel, { passive: true });
 
             startWheelLoop();
-            createConfettiRain();
-            createRainAnimation();
+            //createConfettiRain();
+            //createRainAnimation();
         }
 
         function startWheelLoop() {
@@ -1375,23 +1708,36 @@
 
             if (isSpinning) return;
             isSpinning = true;
-
+            disableBanners();
             spinButton.style.animation = 'none';
             //pointer.classList.remove('pointer-shake');
-            
             if (audioNodes.spinLoop) {
                 stopAudio(audioNodes.spinLoop);
               }
-
             audioNodes.spinStart = playAudio('spinStart');
             //pointer.classList.add('pointer-shake');
 
             const spinDuration = 5000;
-            const winningSegmentIndex = Math.floor(Math.random() * config.winningSegments.length);
-            const targetSegment = config.winningSegments[winningSegmentIndex];
             const degreesPerSegment = 360 / config.wheelSegments;
+            const targetSegment = Math.floor(Math.random() * config.wheelSegments);
+
+            const baseRotation = (360 - (targetSegment * degreesPerSegment));
+            
+
+            //Center of the segment
+            const segmentAngle = (targetSegment * degreesPerSegment);
+            const offsetAngle = degreesPerSegment / 2;
+
+            //Ofsset to avoid stopping in the borderlines
+            const minOffset = 1;  
+            const maxOffset = degreesPerSegment - 4; 
+            const randomOffset = Math.random() * (maxOffset - minOffset) + minOffset;
+            
+            
+            //Rotation calculation
             const extraSpins = 5 * 360;
-            const totalDegrees = extraSpins + (360 - targetSegment * degreesPerSegment) - (degreesPerSegment / 2);
+            //const segmentOffset = Math.random() * (degreesPerSegment - 10) + 5;
+            const totalDegrees = extraSpins + baseRotation - randomOffset;
             
             wheel.style.transition = `transform ${spinDuration / 1000}s cubic-bezier(0.25, 0.1, 0.25, 1)`;
             wheel.style.transform = `rotate(${totalDegrees}deg)`;
@@ -1443,19 +1789,29 @@
 
         function showResult(segmentIndex) {
             playAudio('win');
-            pointer.classList.add('pointer-shake');
+            //pointer.classList.add('pointer-shake');
             
             const prize = config.prizes[segmentIndex];
             
-            createRainAnimation('assets/sparkle.png', 500);
-            createConfettiRain();
+            //createRainAnimation('assets/sparkle.png', 500);
+           //createConfettiRain();
             
-            popupTitle.textContent = prize.text;
-            popupMessage.textContent = prize.message;
-            ctaButton.href = config.ctaLink;
-            ctaButton.textContent = prize.ctaText;
+           // popupTitle.textContent = prize.text;
+           // popupMessage.textContent = prize.message;
+           // ctaButton.href = config.ctaLink;
+           // ctaButton.textContent = prize.ctaText;
+
+            if (prize) {
+                const popup = document.getElementById('popup')
+                popup.style.backgroundImage = `url('${prize.bannerImage}')`;
+
+                hemenAlBtn.href = prize.ctaLink;
+                takipEtBtn.href = 'https://telegram.org';
+
+            }
             
             popupOverlay.style.display = 'flex';
+            enableBanners();
         }
 
             function createConfettiRain() {
@@ -1494,10 +1850,22 @@
             ensureAudioLoaded();
         });
 
+        function disableBanners() {
+            banners.forEach(banner => {
+                banner.classList.add('disabled');
+            });
+        }
+
+        function enableBanners() {
+            banners.forEach(banner => {
+                banner.classList.remove('disabled');
+            });
+        }
+
     </script>
     <!-- Cookie Consent V2 -->
     <div id="consent-popup">
-        <div id="consent-content">
+        <div id="consent-content" class="consent-content">
             <h3>Gizliliğiniz Bizim İçin Önemlidir</h3>
             <p>Sitemizdeki içeriği ve reklamları kişiselleştirmek, ayrıca site trafiğini analiz etmek için çerezler ve diğer teknolojileri kullanıyoruz. "Kabul Et" butonuna tıkladığınızda, bu teknolojilerin kullanımına onay vermiş olursunuz.</p>
             <div class="consent-buttons">
@@ -1518,12 +1886,12 @@
             if (!localStorage.getItem(consentKey)) {
                 consentPopup.style.display = 'flex';
             }
-            createConfettiRain();
+            //createConfettiRain();
         }
 
         function hideConsentPopup() {
             consentPopup.style.display = 'none';
-            createConfettiRain();
+            //createConfettiRain();
         }
 
         function handleAccept() {

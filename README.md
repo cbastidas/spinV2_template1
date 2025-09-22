@@ -1,1 +1,1 @@
-# spinV2_template1
+# Spin Without the Banners
